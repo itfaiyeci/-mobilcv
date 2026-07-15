@@ -7033,6 +7033,7 @@ s0.parentNode.insertBefore(s1,s0);
 
 
 	   <!-- ==================== ONBOARDING OVERLAY - MOBİL UYUMLU ==================== -->
+<!-- ==================== ONBOARDING OVERLAY - MOBİL UYUMLU ==================== -->
 <style>
     #onboarding-overlay {
         display: none;
@@ -7320,11 +7321,11 @@ s0.parentNode.insertBefore(s1,s0);
             </li>
         </ul>
         
-        <button class="onboarding-start-btn" onclick="closeOnboarding()">
+        <button class="onboarding-start-btn" id="onboarding-start-btn">
             CV Oluşturmaya Başla →
         </button>
         
-        <button class="onboarding-skip" onclick="closeOnboarding()">
+        <button class="onboarding-skip" id="onboarding-skip-btn">
             Sonra hatırlat
         </button>
     </div>
@@ -7334,27 +7335,28 @@ s0.parentNode.insertBefore(s1,s0);
     (function() {
         'use strict';
         
-        // Onboarding gösterilmiş mi kontrol et
-        const onboardingShown = localStorage.getItem('mobilcv_onboarding_shown');
-        const overlay = document.getElementById('onboarding-overlay');
+        // ===================================================
+        // ✅ POPUP KONTROLÜ - MEVCUT KODU ENGELLEME
+        // ===================================================
+        // Mevcut popup'ın otomatik açılmasını engelle
+        const popup = document.getElementById('warning-popup');
+        const originalPopupDisplay = popup ? popup.style.display : null;
         
-        // Eğer gösterilmediyse ve overlay varsa göster
-        if (!onboardingShown && overlay) {
-            // Sayfa tam yüklendikten sonra göster
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    overlay.style.display = 'flex';
-                    document.body.style.overflow = 'hidden';
-                    
-                    // iOS Safari için body scroll'u engelle
-                    document.body.style.position = 'fixed';
-                    document.body.style.width = '100%';
-                }, 800);
-            });
+        // Popup'ı başlangıçta gizle
+        if (popup) {
+            popup.style.display = 'none';
         }
         
+        // ===================================================
+        // ✅ ONBOARDING KONTROLÜ
+        // ===================================================
+        const onboardingShown = localStorage.getItem('mobilcv_onboarding_shown');
+        const overlay = document.getElementById('onboarding-overlay');
+        const startBtn = document.getElementById('onboarding-start-btn');
+        const skipBtn = document.getElementById('onboarding-skip-btn');
+        
         // Onboarding kapatma fonksiyonu
-        window.closeOnboarding = function() {
+        function closeOnboarding(showPopup = true) {
             const overlayEl = document.getElementById('onboarding-overlay');
             if (overlayEl) {
                 overlayEl.style.opacity = '0';
@@ -7366,18 +7368,58 @@ s0.parentNode.insertBefore(s1,s0);
                     document.body.style.width = 'auto';
                     
                     // ✅ Onboarding kapandıktan SONRA uyarı popup'ını göster
-                    showWarningPopup();
+                    if (showPopup) {
+                        showWarningPopup();
+                    }
                 }, 300);
             }
             localStorage.setItem('mobilcv_onboarding_shown', 'true');
-        };
+        }
+        
+        // ✅ UYARI POPUP'INI GÖSTEREN FONKSİYON (GÜNCELLENDİ)
+        function showWarningPopup() {
+            const popupEl = document.getElementById('warning-popup');
+            const popupShown = localStorage.getItem('popupShown');
+            
+            // Popup daha önce gösterilmediyse ve popup varsa göster
+            if (popupEl && !popupShown) {
+                console.log('Uyarı popup gösteriliyor...');
+                setTimeout(function() {
+                    popupEl.style.animation = 'none';
+                    popupEl.style.display = 'flex';
+                    
+                    // İçerik animasyonunu da devre dışı bırak
+                    const popupContent = popupEl.querySelector('.popup-content');
+                    if (popupContent) {
+                        popupContent.style.animation = 'none';
+                    }
+                }, 300);
+            }
+        }
+        
+        // ===================================================
+        // ✅ BUTON OLAYLARI
+        // ===================================================
+        // Başla butonu
+        if (startBtn) {
+            startBtn.addEventListener('click', function() {
+                closeOnboarding(true);
+            });
+        }
+        
+        // Sonra hatırlat butonu
+        if (skipBtn) {
+            skipBtn.addEventListener('click', function() {
+                closeOnboarding(true);
+            });
+        }
         
         // ESC tuşu ile kapatma
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 const overlayEl = document.getElementById('onboarding-overlay');
                 if (overlayEl && overlayEl.style.display === 'flex') {
-                    window.closeOnboarding();
+                    closeOnboarding(true);
                 }
             }
         });
@@ -7386,7 +7428,7 @@ s0.parentNode.insertBefore(s1,s0);
         document.addEventListener('click', function(e) {
             const overlayEl = document.getElementById('onboarding-overlay');
             if (overlayEl && e.target === overlayEl) {
-                window.closeOnboarding();
+                closeOnboarding(true);
             }
         });
         
@@ -7394,14 +7436,44 @@ s0.parentNode.insertBefore(s1,s0);
         document.addEventListener('touchstart', function(e) {
             const overlayEl = document.getElementById('onboarding-overlay');
             if (overlayEl && e.target === overlayEl) {
-                window.closeOnboarding();
+                closeOnboarding(true);
             }
         }, { passive: true });
         
-        // LocalStorage'ı manuel temizlemek için (geliştirici)
+        // ===================================================
+        // ✅ ONBOARDING GÖSTER
+        // ===================================================
+        // Eğer gösterilmediyse ve overlay varsa göster
+        if (!onboardingShown && overlay) {
+            // Sayfa tam yüklendikten sonra göster
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    overlay.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                    
+                    // iOS Safari için body scroll'u engelle
+                    document.body.style.position = 'fixed';
+                    document.body.style.width = '100%';
+                }, 600);
+            });
+        } else {
+            // ✅ Eğer onboarding zaten gösterilmişse, direkt popup'ı göster
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    showWarningPopup();
+                }, 500);
+            });
+        }
+        
+        // ===================================================
+        // ✅ GELİŞTİRİCİ ARAÇLARI
+        // ===================================================
+        // LocalStorage'ı manuel temizlemek için
         window.resetOnboarding = function() {
             localStorage.removeItem('mobilcv_onboarding_shown');
-            console.log('Onboarding sıfırlandı. Sayfayı yenileyin.');
+            localStorage.removeItem('popupShown');
+            console.log('Onboarding ve popup sıfırlandı. Sayfayı yenileyin.');
+            location.reload();
         };
         
         // Sayfa yeniden boyutlandırıldığında kontrol
@@ -7417,41 +7489,11 @@ s0.parentNode.insertBefore(s1,s0);
             }, 100);
         });
         
-        // ===================================================
-        // ✅ UYARI POPUP'INI GÖSTEREN FONKSİYON (MEVCUT KODU KULLANIR)
-        // ===================================================
-        function showWarningPopup() {
-            const popup = document.getElementById('warning-popup');
-            const popupShown = localStorage.getItem('popupShown');
-            
-            // Popup daha önce gösterilmediyse ve popup varsa göster
-            if (popup && !popupShown) {
-                console.log('Uyarı popup gösteriliyor...');
-                setTimeout(function() {
-                    popup.style.animation = 'none';
-                    popup.style.display = 'flex';
-                    
-                    // İçerik animasyonunu da devre dışı bırak
-                    const popupContent = popup.querySelector('.popup-content');
-                    if (popupContent) {
-                        popupContent.style.animation = 'none';
-                    }
-                }, 200); // 200ms gecikme ile göster
-            }
-        }
-        
-        // ✅ Eğer onboarding zaten gösterilmişse, direkt popup'ı göster
-        if (onboardingShown) {
-            // Sayfa yüklendikten sonra popup'ı göster
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    showWarningPopup();
-                }, 500);
-            });
-        }
+        console.log('Onboarding sistemi başlatıldı. Onboarding gösterildi mi:', !onboardingShown);
         
     })();
 </script>
+<!-- ==================== ONBOARDING OVERLAY SONU ==================== -->
 <!-- ==================== ONBOARDING OVERLAY SONU ==================== -->
 
 </body>
