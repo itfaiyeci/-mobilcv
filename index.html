@@ -2849,7 +2849,9 @@
             s0.parentNode.insertBefore(s1, s0);
         })();
     </script>
-<!-- ==================== ONBOARDING OVERLAY - MOBİL UYUMLU ==================== -->
+
+
+    <!-- ==================== ONBOARDING OVERLAY - MOBİL UYUMLU (HER ZAMAN GÖSTER) ==================== -->
 <style>
     #onboarding-overlay {
         display: none;
@@ -3154,9 +3156,7 @@
         // ===================================================
         // ✅ POPUP KONTROLÜ - MEVCUT KODU ENGELLEME
         // ===================================================
-        // Mevcut popup'ın otomatik açılmasını engelle
         const popup = document.getElementById('warning-popup');
-        const originalPopupDisplay = popup ? popup.style.display : null;
         
         // Popup'ı başlangıçta gizle
         if (popup) {
@@ -3164,9 +3164,8 @@
         }
         
         // ===================================================
-        // ✅ ONBOARDING KONTROLÜ
+        // ✅ ONBOARDING KONTROLÜ - HER ZAMAN GÖSTER
         // ===================================================
-        const onboardingShown = localStorage.getItem('mobilcv_onboarding_shown');
         const overlay = document.getElementById('onboarding-overlay');
         const startBtn = document.getElementById('onboarding-start-btn');
         const skipBtn = document.getElementById('onboarding-skip-btn');
@@ -3189,10 +3188,9 @@
                     }
                 }, 300);
             }
-            localStorage.setItem('mobilcv_onboarding_shown', 'true');
         }
         
-        // ✅ UYARI POPUP'INI GÖSTEREN FONKSİYON (GÜNCELLENDİ)
+        // ✅ UYARI POPUP'INI GÖSTEREN FONKSİYON
         function showWarningPopup() {
             const popupEl = document.getElementById('warning-popup');
             const popupShown = localStorage.getItem('popupShown');
@@ -3257,38 +3255,29 @@
         }, { passive: true });
         
         // ===================================================
-        // ✅ ONBOARDING GÖSTER
+        // ✅ ONBOARDING GÖSTER - HER ZAMAN
         // ===================================================
-        // Eğer gösterilmediyse ve overlay varsa göster
-        if (!onboardingShown && overlay) {
-            // Sayfa tam yüklendikten sonra göster
-            window.addEventListener('load', function() {
-                setTimeout(function() {
+        // Sayfa tam yüklendikten sonra her zaman göster
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                if (overlay) {
                     overlay.style.display = 'flex';
                     document.body.style.overflow = 'hidden';
                     
                     // iOS Safari için body scroll'u engelle
                     document.body.style.position = 'fixed';
                     document.body.style.width = '100%';
-                }, 600);
-            });
-        } else {
-            // ✅ Eğer onboarding zaten gösterilmişse, direkt popup'ı göster
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    showWarningPopup();
-                }, 500);
-            });
-        }
+                }
+            }, 600);
+        });
         
         // ===================================================
         // ✅ GELİŞTİRİCİ ARAÇLARI
         // ===================================================
-        // LocalStorage'ı manuel temizlemek için
-        window.resetOnboarding = function() {
-            localStorage.removeItem('mobilcv_onboarding_shown');
+        // Popup'ı sıfırlamak için
+        window.resetPopup = function() {
             localStorage.removeItem('popupShown');
-            console.log('Onboarding ve popup sıfırlandı. Sayfayı yenileyin.');
+            console.log('Popup sıfırlandı. Sayfayı yenileyin.');
             location.reload();
         };
         
@@ -3305,7 +3294,7 @@
             }, 100);
         });
         
-        console.log('Onboarding sistemi başlatıldı. Onboarding gösterildi mi:', !onboardingShown);
+        console.log('Onboarding sistemi başlatıldı. Her sayfa açılışında gösterilecek.');
         
     })();
 </script>
