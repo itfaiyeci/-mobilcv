@@ -7030,6 +7030,397 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
+
+
+	    <!-- ==================== ONBOARDING OVERLAY - MOBİL UYUMLU ==================== -->
+    <style>
+        #onboarding-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            animation: onboardingFadeIn 0.4s ease;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        
+        @keyframes onboardingFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes onboardingSlideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        #onboarding-overlay .onboarding-card {
+            background: white;
+            padding: 30px 25px 25px;
+            border-radius: 16px;
+            max-width: 440px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+            animation: onboardingSlideUp 0.5s ease;
+            position: relative;
+            box-sizing: border-box;
+            margin: auto;
+        }
+        
+        #onboarding-overlay .onboarding-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2ecc71, #f39c12);
+            border-radius: 16px 16px 0 0;
+        }
+        
+        #onboarding-overlay .onboarding-icon {
+            font-size: 44px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        #onboarding-overlay h3 {
+            font-size: 20px;
+            color: #2c3e50;
+            margin: 0 0 8px 0;
+            font-weight: 700;
+        }
+        
+        #onboarding-overlay p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+            margin: 0 0 4px 0;
+        }
+        
+        #onboarding-overlay .onboarding-features {
+            text-align: left;
+            margin: 15px 0 18px;
+            padding: 0;
+            list-style: none;
+        }
+        
+        #onboarding-overlay .onboarding-features li {
+            padding: 7px 0;
+            font-size: 13px;
+            color: #444;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #onboarding-overlay .onboarding-features li:last-child {
+            border-bottom: none;
+        }
+        
+        #onboarding-overlay .onboarding-features .feature-icon {
+            font-size: 16px;
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        
+        #onboarding-overlay .onboarding-start-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 13px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 5px;
+            width: 100%;
+            letter-spacing: 0.5px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        #onboarding-overlay .onboarding-start-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.35);
+        }
+        
+        #onboarding-overlay .onboarding-start-btn:active {
+            transform: scale(0.97);
+        }
+        
+        #onboarding-overlay .onboarding-skip {
+            display: block;
+            margin-top: 12px;
+            font-size: 12px;
+            color: #999;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.2s;
+            padding: 8px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        #onboarding-overlay .onboarding-skip:hover {
+            color: #666;
+        }
+        
+        /* ========== MOBİL ÖZEL DÜZENLEMELER ========== */
+        @media (max-width: 480px) {
+            #onboarding-overlay {
+                padding: 10px;
+                align-items: center;
+            }
+            
+            #onboarding-overlay .onboarding-card {
+                padding: 25px 18px 20px;
+                border-radius: 14px;
+                max-height: 85vh;
+            }
+            
+            #onboarding-overlay .onboarding-icon {
+                font-size: 38px;
+                margin-bottom: 6px;
+            }
+            
+            #onboarding-overlay h3 {
+                font-size: 18px;
+                margin-bottom: 6px;
+            }
+            
+            #onboarding-overlay p {
+                font-size: 13px;
+                line-height: 1.4;
+            }
+            
+            #onboarding-overlay .onboarding-features {
+                margin: 12px 0 15px;
+            }
+            
+            #onboarding-overlay .onboarding-features li {
+                font-size: 12px;
+                padding: 6px 0;
+                gap: 8px;
+            }
+            
+            #onboarding-overlay .onboarding-features .feature-icon {
+                font-size: 14px;
+                width: 20px;
+            }
+            
+            #onboarding-overlay .onboarding-start-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+                border-radius: 25px;
+            }
+            
+            #onboarding-overlay .onboarding-skip {
+                font-size: 11px;
+                margin-top: 10px;
+            }
+        }
+        
+        /* ÇOK KÜÇÜK EKRANLAR (320px ve altı) */
+        @media (max-width: 360px) {
+            #onboarding-overlay .onboarding-card {
+                padding: 20px 14px 16px;
+            }
+            
+            #onboarding-overlay .onboarding-icon {
+                font-size: 32px;
+            }
+            
+            #onboarding-overlay h3 {
+                font-size: 16px;
+            }
+            
+            #onboarding-overlay p {
+                font-size: 12px;
+            }
+            
+            #onboarding-overlay .onboarding-features li {
+                font-size: 11px;
+                padding: 5px 0;
+            }
+            
+            #onboarding-overlay .onboarding-start-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+        }
+        
+        /* TABLET BOYUTLARI */
+        @media (min-width: 481px) and (max-width: 768px) {
+            #onboarding-overlay .onboarding-card {
+                padding: 35px 30px 30px;
+                max-width: 400px;
+            }
+            
+            #onboarding-overlay h3 {
+                font-size: 21px;
+            }
+        }
+        
+        /* YÜKSEK ÇÖZÜNÜRLÜKLÜ EKRANLAR İÇİN */
+        @media (min-width: 769px) {
+            #onboarding-overlay .onboarding-card {
+                padding: 40px 35px 35px;
+            }
+        }
+        
+        /* Safari mobil için düzeltmeler */
+        @supports (-webkit-touch-callout: none) {
+            #onboarding-overlay .onboarding-card {
+                padding: 30px 20px 25px;
+            }
+        }
+    </style>
+
+    <div id="onboarding-overlay" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
+        <div class="onboarding-card">
+            <span class="onboarding-icon" aria-hidden="true">🚀</span>
+            <h3 id="onboarding-title">MobilCV'ye Hoş Geldiniz!</h3>
+            <p>Profesyonel CV'nizi 5 dakikada oluşturun.</p>
+            
+            <ul class="onboarding-features">
+                <li>
+                    <span class="feature-icon" aria-hidden="true">✏️</span>
+                    <span>A4 sayfasındaki metinlere tıklayıp doğrudan düzenleyin</span>
+                </li>
+                <li>
+                    <span class="feature-icon" aria-hidden="true">📸</span>
+                    <span>Fotoğraf eklemek için profil alanına tıklayın</span>
+                </li>
+                <li>
+                    <span class="feature-icon" aria-hidden="true">➕</span>
+                    <span>Bölüm eklemek için alt kısımdaki butonları kullanın</span>
+                </li>
+                <li>
+                    <span class="feature-icon" aria-hidden="true">📄</span>
+                    <span>PDF indirerek CV'nizi kaydedin</span>
+                </li>
+            </ul>
+            
+            <button class="onboarding-start-btn" onclick="closeOnboarding()">
+                CV Oluşturmaya Başla →
+            </button>
+            
+            <button class="onboarding-skip" onclick="closeOnboarding()">
+                Sonra hatırlat
+            </button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+            
+            // Onboarding gösterilmiş mi kontrol et
+            const onboardingShown = localStorage.getItem('mobilcv_onboarding_shown');
+            const overlay = document.getElementById('onboarding-overlay');
+            
+            // Eğer gösterilmediyse ve overlay varsa göster
+            if (!onboardingShown && overlay) {
+                // Sayfa tam yüklendikten sonra göster
+                window.addEventListener('load', function() {
+                    setTimeout(function() {
+                        overlay.style.display = 'flex';
+                        document.body.style.overflow = 'hidden';
+                        
+                        // iOS Safari için body scroll'u engelle
+                        document.body.style.position = 'fixed';
+                        document.body.style.width = '100%';
+                    }, 800);
+                });
+            }
+            
+            // Onboarding kapatma fonksiyonu
+            window.closeOnboarding = function() {
+                const overlayEl = document.getElementById('onboarding-overlay');
+                if (overlayEl) {
+                    overlayEl.style.opacity = '0';
+                    overlayEl.style.transition = 'opacity 0.3s ease';
+                    setTimeout(function() {
+                        overlayEl.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                        document.body.style.position = 'static';
+                        document.body.style.width = 'auto';
+                    }, 300);
+                }
+                localStorage.setItem('mobilcv_onboarding_shown', 'true');
+            };
+            
+            // ESC tuşu ile kapatma
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const overlayEl = document.getElementById('onboarding-overlay');
+                    if (overlayEl && overlayEl.style.display === 'flex') {
+                        window.closeOnboarding();
+                    }
+                }
+            });
+            
+            // Overlay dışına tıklayarak kapatma (arka plana tıklanınca)
+            document.addEventListener('click', function(e) {
+                const overlayEl = document.getElementById('onboarding-overlay');
+                if (overlayEl && e.target === overlayEl) {
+                    window.closeOnboarding();
+                }
+            });
+            
+            // Dokunmatik cihazlar için touch event
+            document.addEventListener('touchstart', function(e) {
+                const overlayEl = document.getElementById('onboarding-overlay');
+                if (overlayEl && e.target === overlayEl) {
+                    window.closeOnboarding();
+                }
+            }, { passive: true });
+            
+            // LocalStorage'ı manuel temizlemek için (geliştirici)
+            window.resetOnboarding = function() {
+                localStorage.removeItem('mobilcv_onboarding_shown');
+                console.log('Onboarding sıfırlandı. Sayfayı yenileyin.');
+            };
+            
+            // Sayfa yeniden boyutlandırıldığında kontrol
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    const overlayEl = document.getElementById('onboarding-overlay');
+                    if (overlayEl && overlayEl.style.display === 'flex') {
+                        // Mobil cihazlarda card'ın ortalanmasını sağla
+                        overlayEl.style.justifyContent = 'center';
+                        overlayEl.style.alignItems = 'center';
+                    }
+                }, 100);
+            });
+            
+        })();
+    </script>
+    <!-- ==================== ONBOARDING OVERLAY SONU ==================== -->
+
+</body>
+</html>
 </body>
 
 
