@@ -3164,139 +3164,41 @@
         }
         
         // ===================================================
-        // ✅ ONBOARDING KONTROLÜ - HER ZAMAN GÖSTER
-        // ===================================================
-        const overlay = document.getElementById('onboarding-overlay');
-        const startBtn = document.getElementById('onboarding-start-btn');
-        const skipBtn = document.getElementById('onboarding-skip-btn');
-        
-        // Onboarding kapatma fonksiyonu
-        function closeOnboarding(showPopup = true) {
-            const overlayEl = document.getElementById('onboarding-overlay');
-            if (overlayEl) {
-                overlayEl.style.opacity = '0';
-                overlayEl.style.transition = 'opacity 0.3s ease';
-                setTimeout(function() {
-                    overlayEl.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                    document.body.style.position = 'static';
-                    document.body.style.width = 'auto';
-                    
-                    // ✅ Onboarding kapandıktan SONRA uyarı popup'ını göster
-                    if (showPopup) {
-                        showWarningPopup();
-                    }
-                }, 300);
-            }
-        }
-        
-        // ✅ UYARI POPUP'INI GÖSTEREN FONKSİYON
-        function showWarningPopup() {
-            const popupEl = document.getElementById('warning-popup');
-            const popupShown = localStorage.getItem('popupShown');
-            
-            // Popup daha önce gösterilmediyse ve popup varsa göster
-            if (popupEl && !popupShown) {
-                console.log('Uyarı popup gösteriliyor...');
-                setTimeout(function() {
-                    popupEl.style.animation = 'none';
-                    popupEl.style.display = 'flex';
-                    
-                    // İçerik animasyonunu da devre dışı bırak
-                    const popupContent = popupEl.querySelector('.popup-content');
-                    if (popupContent) {
-                        popupContent.style.animation = 'none';
-                    }
-                }, 300);
-            }
-        }
-        
-        // ===================================================
-        // ✅ BUTON OLAYLARI
-        // ===================================================
-        // Başla butonu
-        if (startBtn) {
-            startBtn.addEventListener('click', function() {
-                closeOnboarding(true);
-            });
-        }
-        
-        // Sonra hatırlat butonu
-        if (skipBtn) {
-            skipBtn.addEventListener('click', function() {
-                closeOnboarding(true);
-            });
-        }
-        
-        // ESC tuşu ile kapatma
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                const overlayEl = document.getElementById('onboarding-overlay');
-                if (overlayEl && overlayEl.style.display === 'flex') {
-                    closeOnboarding(true);
-                }
-            }
-        });
-        
-        // Overlay dışına tıklayarak kapatma (arka plana tıklanınca)
-        document.addEventListener('click', function(e) {
-            const overlayEl = document.getElementById('onboarding-overlay');
-            if (overlayEl && e.target === overlayEl) {
-                closeOnboarding(true);
-            }
-        });
-        
-        // Dokunmatik cihazlar için touch event
-        document.addEventListener('touchstart', function(e) {
-            const overlayEl = document.getElementById('onboarding-overlay');
-            if (overlayEl && e.target === overlayEl) {
-                closeOnboarding(true);
-            }
-        }, { passive: true });
-        
-        // ===================================================
-        // ✅ ONBOARDING GÖSTER - HER ZAMAN
-        // ===================================================
-        // Sayfa tam yüklendikten sonra her zaman göster
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                if (overlay) {
-                    overlay.style.display = 'flex';
-                    document.body.style.overflow = 'hidden';
-                    
-                    // iOS Safari için body scroll'u engelle
-                    document.body.style.position = 'fixed';
-                    document.body.style.width = '100%';
-                }
-            }, 600);
-        });
-        
-        // ===================================================
-        // ✅ GELİŞTİRİCİ ARAÇLARI
-        // ===================================================
-        // Popup'ı sıfırlamak için
-        window.resetPopup = function() {
-            localStorage.removeItem('popupShown');
-            console.log('Popup sıfırlandı. Sayfayı yenileyin.');
-            location.reload();
-        };
-        
-        // Sayfa yeniden boyutlandırıldığında kontrol
-        let resizeTimer;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function() {
-                const overlayEl = document.getElementById('onboarding-overlay');
-                if (overlayEl && overlayEl.style.display === 'flex') {
-                    overlayEl.style.justifyContent = 'center';
-                    overlayEl.style.alignItems = 'center';
-                }
-            }, 100);
-        });
-        
-        console.log('Onboarding sistemi başlatıldı. Her sayfa açılışında gösterilecek.');
-        
-    })();
+        <!-- KARŞILAMA EKRANI (ONBOARDING) -->
+<div id="onboarding-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center; animation:fadeIn 0.3s ease;">
+    <div style="background:white; padding:30px; border-radius:12px; max-width:400px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+        <div style="font-size:48px; margin-bottom:10px;">🚀</div>
+        <h3 style="color:#2c3e50; margin-bottom:10px;">MobilCV'ye Hoş Geldiniz!</h3>
+        <p style="color:#555; font-size:14px; line-height:1.6;">
+            CV'nizi oluşturmak için <strong>A4 sayfasındaki metinlere tıklayıp düzenleyin</strong>.<br>
+            Tüm alanlar <strong>doğrudan düzenlenebilir</strong> ve değişiklikler otomatik kaydedilir.
+        </p>
+        <p style="color:#888; font-size:13px; margin-top:5px;">
+            📄 PDF indir • 🌍 10 dil desteği • 📱 mobil uyumlu
+        </p>
+        <button onclick="closeOnboarding()" style="background:#3498db; color:white; border:none; padding:12px 30px; border-radius:8px; cursor:pointer; margin-top:15px; font-size:16px; font-weight:600; transition:all 0.3s;">
+            Başlayalım!
+        </button>
+    </div>
+</div>
+
+<style>
+@keyframes fadeIn {
+    from { opacity:0; transform:scale(0.95); }
+    to { opacity:1; transform:scale(1); }
+}
+</style>
+
+<script>
+function closeOnboarding() {
+    document.getElementById('onboarding-overlay').style.display = 'none';
+    localStorage.setItem('onboardingShown', 'true');
+}
+
+// İlk ziyaretçiler için göster (sayfa yenilense bile localStorage korunur)
+if(!localStorage.getItem('onboardingShown')) {
+    document.getElementById('onboarding-overlay').style.display = 'flex';
+}
 </script>
 <!-- ==================== ONBOARDING OVERLAY SONU ==================== -->
 </body>
