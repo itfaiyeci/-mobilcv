@@ -2852,109 +2852,92 @@
 
 
    <!-- KARŞILAMA EKRANI (ONBOARDING) - TELEFON UYUMLU -->
-<!-- KARŞILAMA EKRANI (ONBOARDING) - SORUNSUZ VERSİYON -->
-<div id="onboarding-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.75); z-index:99999; justify-content:center; align-items:center; animation:fadeIn 0.3s ease; padding:20px; box-sizing:border-box; overflow-y:auto;">
-    <div style="background:#ffffff; padding:30px 25px; border-radius:16px; max-width:380px; width:100%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.4); margin:auto; box-sizing:border-box; position:relative;">
-        <div style="font-size:48px; margin-bottom:6px;">🚀</div>
-        <h3 style="color:#2c3e50; margin:0 0 8px 0; font-size:22px; font-weight:700;">MobilCV'ye Hoş Geldiniz!</h3>
-        <p style="color:#555; font-size:14px; line-height:1.7; margin:0 0 6px 0;">
-            CV'nizi oluşturmak için <strong>A4 sayfasındaki metinlere tıklayıp düzenleyin</strong>.
-        </p>
-        <p style="color:#777; font-size:13px; margin:0 0 16px 0; line-height:1.5;">
-            📄 PDF indir • 🌍 10 dil desteği • 📱 mobil uyumlu
-        </p>
-        <button onclick="closeOnboarding()" style="background:#3498db; color:white; border:none; padding:14px 40px; border-radius:10px; cursor:pointer; font-size:17px; font-weight:600; transition:all 0.3s; touch-action:manipulation; box-shadow:0 4px 15px rgba(52,152,219,0.3);">
-            Başlayalım!
-        </button>
-        <p style="color:#aaa; font-size:11px; margin:12px 0 0 0;">Verileriniz otomatik kaydedilir</p>
-    </div>
-</div>
-
+<!-- BASİT KARŞILAMA MESAJI (TOAST) - SAYFAYI BOZMAZ -->
 <style>
-@keyframes fadeIn {
-    from { opacity:0; }
-    to { opacity:1; }
+#welcome-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2c3e50;
+    color: white;
+    padding: 16px 28px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    z-index: 9999;
+    font-size: 15px;
+    font-weight: 500;
+    display: none;
+    align-items: center;
+    gap: 14px;
+    animation: slideUp 0.5s ease;
+    max-width: 90%;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
 }
-#onboarding-overlay {
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
+#welcome-toast button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: all 0.3s;
 }
-/* Mobil için özel */
+#welcome-toast button:hover {
+    background: #2980b9;
+    transform: scale(1.05);
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateX(-50%) translateY(30px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
 @media (max-width: 480px) {
-    #onboarding-overlay {
-        padding: 15px !important;
-        align-items: center !important;
+    #welcome-toast {
+        flex-direction: column;
+        gap: 10px;
+        padding: 14px 18px;
+        font-size: 13px;
+        bottom: 15px;
     }
-    #onboarding-overlay > div {
-        padding: 25px 18px !important;
-        border-radius: 14px !important;
-    }
-    #onboarding-overlay h3 {
-        font-size: 19px !important;
-    }
-    #onboarding-overlay p {
-        font-size: 13px !important;
-    }
-    #onboarding-overlay button {
-        padding: 12px 30px !important;
-        font-size: 15px !important;
-        width: 100% !important;
+    #welcome-toast button {
+        width: 100%;
+        padding: 10px;
     }
 }
 </style>
 
+<div id="welcome-toast">
+    <span>👋 MobilCV'ye Hoş Geldiniz! CV'yi düzenlemek için metinlere tıklayın.</span>
+    <button onclick="closeWelcomeToast()">Başla</button>
+</div>
+
 <script>
-(function() {
-    'use strict';
-    
-    // Sayfa tamamen yüklendikten sonra göster
-    function showOnboarding() {
-        var overlay = document.getElementById('onboarding-overlay');
-        if (!overlay) return;
-        
-        var shown = localStorage.getItem('onboardingShown');
-        if (!shown) {
-            overlay.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            document.body.style.position = 'fixed';
-            document.body.style.width = '100%';
-        }
+function closeWelcomeToast() {
+    var toast = document.getElementById('welcome-toast');
+    if (toast) {
+        toast.style.display = 'none';
+        localStorage.setItem('welcomeShown', 'true');
     }
-    
-    // Kapatma fonksiyonu (global)
-    window.closeOnboarding = function() {
-        var overlay = document.getElementById('onboarding-overlay');
-        if (overlay) {
-            overlay.style.display = 'none';
-            document.body.style.overflow = '';
-            document.body.style.position = '';
-            document.body.style.width = '';
-            localStorage.setItem('onboardingShown', 'true');
-        }
-    };
-    
-    // Sayfa yüklendiğinde göster
-    if (document.readyState === 'complete') {
-        showOnboarding();
-    } else {
-        window.addEventListener('load', showOnboarding);
+}
+
+function showWelcomeToast() {
+    var toast = document.getElementById('welcome-toast');
+    if (!toast) return;
+    if (!localStorage.getItem('welcomeShown')) {
+        toast.style.display = 'flex';
     }
-    
-    // ESC ile kapat
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            window.closeOnboarding();
-        }
-    });
-    
-    // Dışarı tıklama ile kapat
-    document.addEventListener('click', function(e) {
-        var overlay = document.getElementById('onboarding-overlay');
-        if (overlay && e.target === overlay) {
-            window.closeOnboarding();
-        }
-    });
-})();
+}
+
+// Sayfa yüklendiğinde göster
+if (document.readyState === 'complete') {
+    showWelcomeToast();
+} else {
+    window.addEventListener('load', showWelcomeToast);
+}
 </script>
 <!-- ==================== ONBOARDING OVERLAY SONU ==================== -->
 </body>
