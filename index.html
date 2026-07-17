@@ -2851,332 +2851,19 @@
     </script>
 
 
-    <!-- ==================== ONBOARDING OVERLAY - MOBİL UYUMLU (HER ZAMAN GÖSTER) ==================== -->
-<style>
-    #onboarding-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.75);
-        z-index: 99999;
-        justify-content: center;
-        align-items: center;
-        animation: onboardingFadeIn 0.4s ease;
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        padding: 15px;
-        box-sizing: border-box;
-    }
-    
-    @keyframes onboardingFadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-    
-    @keyframes onboardingSlideUp {
-        from { 
-            opacity: 0;
-            transform: translateY(30px) scale(0.95);
-        }
-        to { 
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-    }
-    
-    #onboarding-overlay .onboarding-card {
-        background: white;
-        padding: 30px 25px 25px;
-        border-radius: 16px;
-        max-width: 440px;
-        width: 100%;
-        max-height: 90vh;
-        overflow-y: auto;
-        text-align: center;
-        box-shadow: 0 25px 60px rgba(0,0,0,0.3);
-        animation: onboardingSlideUp 0.5s ease;
-        position: relative;
-        box-sizing: border-box;
-        margin: auto;
-    }
-    
-    #onboarding-overlay .onboarding-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, #3498db, #2ecc71, #f39c12);
-        border-radius: 16px 16px 0 0;
-    }
-    
-    #onboarding-overlay .onboarding-icon {
-        font-size: 44px;
-        margin-bottom: 8px;
-        display: block;
-    }
-    
-    #onboarding-overlay h3 {
-        font-size: 20px;
-        color: #2c3e50;
-        margin: 0 0 8px 0;
-        font-weight: 700;
-    }
-    
-    #onboarding-overlay p {
-        font-size: 14px;
-        color: #555;
-        line-height: 1.5;
-        margin: 0 0 4px 0;
-    }
-    
-    #onboarding-overlay .onboarding-features {
-        text-align: left;
-        margin: 15px 0 18px;
-        padding: 0;
-        list-style: none;
-    }
-    
-    #onboarding-overlay .onboarding-features li {
-        padding: 7px 0;
-        font-size: 13px;
-        color: #444;
-        border-bottom: 1px solid #f0f0f0;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    #onboarding-overlay .onboarding-features li:last-child {
-        border-bottom: none;
-    }
-    
-    #onboarding-overlay .onboarding-features .feature-icon {
-        font-size: 16px;
-        width: 24px;
-        text-align: center;
-        flex-shrink: 0;
-    }
-    
-    #onboarding-overlay .onboarding-start-btn {
-        background: #3498db;
-        color: white;
-        border: none;
-        padding: 13px 30px;
-        border-radius: 50px;
-        cursor: pointer;
-        font-size: 15px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        margin-top: 5px;
-        width: 100%;
-        letter-spacing: 0.5px;
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    #onboarding-overlay .onboarding-start-btn:hover {
-        background: #2980b9;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(52, 152, 219, 0.35);
-    }
-    
-    #onboarding-overlay .onboarding-start-btn:active {
-        transform: scale(0.97);
-    }
-    
-    #onboarding-overlay .onboarding-skip {
-        display: block;
-        margin-top: 12px;
-        font-size: 12px;
-        color: #999;
-        background: none;
-        border: none;
-        cursor: pointer;
-        text-decoration: underline;
-        transition: color 0.2s;
-        padding: 8px;
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    #onboarding-overlay .onboarding-skip:hover {
-        color: #666;
-    }
-    
-    /* ========== MOBİL ÖZEL DÜZENLEMELER ========== */
-    @media (max-width: 480px) {
-        #onboarding-overlay {
-            padding: 10px;
-            align-items: center;
-        }
-        
-        #onboarding-overlay .onboarding-card {
-            padding: 25px 18px 20px;
-            border-radius: 14px;
-            max-height: 85vh;
-        }
-        
-        #onboarding-overlay .onboarding-icon {
-            font-size: 38px;
-            margin-bottom: 6px;
-        }
-        
-        #onboarding-overlay h3 {
-            font-size: 18px;
-            margin-bottom: 6px;
-        }
-        
-        #onboarding-overlay p {
-            font-size: 13px;
-            line-height: 1.4;
-        }
-        
-        #onboarding-overlay .onboarding-features {
-            margin: 12px 0 15px;
-        }
-        
-        #onboarding-overlay .onboarding-features li {
-            font-size: 12px;
-            padding: 6px 0;
-            gap: 8px;
-        }
-        
-        #onboarding-overlay .onboarding-features .feature-icon {
-            font-size: 14px;
-            width: 20px;
-        }
-        
-        #onboarding-overlay .onboarding-start-btn {
-            padding: 12px 20px;
-            font-size: 14px;
-            border-radius: 25px;
-        }
-        
-        #onboarding-overlay .onboarding-skip {
-            font-size: 11px;
-            margin-top: 10px;
-        }
-    }
-    
-    /* ÇOK KÜÇÜK EKRANLAR (320px ve altı) */
-    @media (max-width: 360px) {
-        #onboarding-overlay .onboarding-card {
-            padding: 20px 14px 16px;
-        }
-        
-        #onboarding-overlay .onboarding-icon {
-            font-size: 32px;
-        }
-        
-        #onboarding-overlay h3 {
-            font-size: 16px;
-        }
-        
-        #onboarding-overlay p {
-            font-size: 12px;
-        }
-        
-        #onboarding-overlay .onboarding-features li {
-            font-size: 11px;
-            padding: 5px 0;
-        }
-        
-        #onboarding-overlay .onboarding-start-btn {
-            padding: 10px 16px;
-            font-size: 13px;
-        }
-    }
-    
-    /* TABLET BOYUTLARI */
-    @media (min-width: 481px) and (max-width: 768px) {
-        #onboarding-overlay .onboarding-card {
-            padding: 35px 30px 30px;
-            max-width: 400px;
-        }
-        
-        #onboarding-overlay h3 {
-            font-size: 21px;
-        }
-    }
-    
-    /* YÜKSEK ÇÖZÜNÜRLÜKLÜ EKRANLAR İÇİN */
-    @media (min-width: 769px) {
-        #onboarding-overlay .onboarding-card {
-            padding: 40px 35px 35px;
-        }
-    }
-    
-    /* Safari mobil için düzeltmeler */
-    @supports (-webkit-touch-callout: none) {
-        #onboarding-overlay .onboarding-card {
-            padding: 30px 20px 25px;
-        }
-    }
-</style>
-
-<div id="onboarding-overlay" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
-    <div class="onboarding-card">
-        <span class="onboarding-icon" aria-hidden="true">🚀</span>
-        <h3 id="onboarding-title">MobilCV'ye Hoş Geldiniz!</h3>
-        <p>Profesyonel CV'nizi 5 dakikada oluşturun.</p>
-        
-        <ul class="onboarding-features">
-            <li>
-                <span class="feature-icon" aria-hidden="true">✏️</span>
-                <span>A4 sayfasındaki metinlere tıklayıp doğrudan düzenleyin</span>
-            </li>
-            <li>
-                <span class="feature-icon" aria-hidden="true">📸</span>
-                <span>Fotoğraf eklemek için profil alanına tıklayın</span>
-            </li>
-            <li>
-                <span class="feature-icon" aria-hidden="true">➕</span>
-                <span>Bölüm eklemek için alt kısımdaki butonları kullanın</span>
-            </li>
-            <li>
-                <span class="feature-icon" aria-hidden="true">📄</span>
-                <span>PDF indirerek CV'nizi kaydedin</span>
-            </li>
-        </ul>
-        
-        <button class="onboarding-start-btn" id="onboarding-start-btn">
-            CV Oluşturmaya Başla →
-        </button>
-        
-        <button class="onboarding-skip" id="onboarding-skip-btn">
-            Sonra hatırlat
-        </button>
-    </div>
-</div>
-
-<script>
-    (function() {
-        'use strict';
-        
-        // ===================================================
-        // ✅ POPUP KONTROLÜ - MEVCUT KODU ENGELLEME
-        // ===================================================
-        const popup = document.getElementById('warning-popup');
-        
-        // Popup'ı başlangıçta gizle
-        if (popup) {
-            popup.style.display = 'none';
-        }
-        
-        // ===================================================
-        <!-- KARŞILAMA EKRANI (ONBOARDING) -->
-<div id="onboarding-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center; animation:fadeIn 0.3s ease;">
-    <div style="background:white; padding:30px; border-radius:12px; max-width:400px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
-        <div style="font-size:48px; margin-bottom:10px;">🚀</div>
-        <h3 style="color:#2c3e50; margin-bottom:10px;">MobilCV'ye Hoş Geldiniz!</h3>
-        <p style="color:#555; font-size:14px; line-height:1.6;">
+   <!-- KARŞILAMA EKRANI (ONBOARDING) - TELEFON UYUMLU -->
+<div id="onboarding-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center; animation:fadeIn 0.3s ease; padding:20px; box-sizing:border-box; overflow-y:auto;">
+    <div style="background:white; padding:25px 20px; border-radius:12px; max-width:400px; width:100%; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.3); margin:auto; box-sizing:border-box; position:relative;">
+        <div style="font-size:42px; margin-bottom:8px;">🚀</div>
+        <h3 style="color:#2c3e50; margin-bottom:8px; font-size:20px;">MobilCV'ye Hoş Geldiniz!</h3>
+        <p style="color:#555; font-size:14px; line-height:1.6; margin:0 0 8px 0;">
             CV'nizi oluşturmak için <strong>A4 sayfasındaki metinlere tıklayıp düzenleyin</strong>.<br>
             Tüm alanlar <strong>doğrudan düzenlenebilir</strong> ve değişiklikler otomatik kaydedilir.
         </p>
-        <p style="color:#888; font-size:13px; margin-top:5px;">
+        <p style="color:#888; font-size:13px; margin:5px 0 12px 0;">
             📄 PDF indir • 🌍 10 dil desteği • 📱 mobil uyumlu
         </p>
-        <button onclick="closeOnboarding()" style="background:#3498db; color:white; border:none; padding:12px 30px; border-radius:8px; cursor:pointer; margin-top:15px; font-size:16px; font-weight:600; transition:all 0.3s;">
+        <button onclick="closeOnboarding()" style="background:#3498db; color:white; border:none; padding:12px 30px; border-radius:8px; cursor:pointer; font-size:16px; font-weight:600; transition:all 0.3s; width:100%; max-width:200px; touch-action:manipulation;">
             Başlayalım!
         </button>
     </div>
@@ -3187,18 +2874,60 @@
     from { opacity:0; transform:scale(0.95); }
     to { opacity:1; transform:scale(1); }
 }
+/* Telefon için ekstra güvenlik */
+@media (max-width: 480px) {
+    #onboarding-overlay {
+        padding: 10px !important;
+        align-items: flex-start !important;
+        padding-top: 30px !important;
+    }
+    #onboarding-overlay > div {
+        padding: 20px 15px !important;
+        margin-top: 20px !important;
+    }
+    #onboarding-overlay h3 {
+        font-size: 18px !important;
+    }
+    #onboarding-overlay p {
+        font-size: 13px !important;
+    }
+}
 </style>
 
 <script>
 function closeOnboarding() {
-    document.getElementById('onboarding-overlay').style.display = 'none';
-    localStorage.setItem('onboardingShown', 'true');
+    var overlay = document.getElementById('onboarding-overlay');
+    if (overlay) {
+        overlay.style.display = 'none';
+        overlay.style.opacity = '0';
+        document.body.style.overflow = 'auto';
+        localStorage.setItem('onboardingShown', 'true');
+    }
 }
 
-// İlk ziyaretçiler için göster (sayfa yenilense bile localStorage korunur)
-if(!localStorage.getItem('onboardingShown')) {
-    document.getElementById('onboarding-overlay').style.display = 'flex';
-}
+// Sayfa yüklendiğinde kontrol et
+document.addEventListener('DOMContentLoaded', function() {
+    var overlay = document.getElementById('onboarding-overlay');
+    if (!localStorage.getItem('onboardingShown') && overlay) {
+        overlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Arkadaki sayfanın kaymasını engelle
+    }
+});
+
+// ESC tuşu ile kapatma
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeOnboarding();
+    }
+});
+
+// Dışarı tıklayarak kapatma (isteğe bağlı)
+document.addEventListener('click', function(e) {
+    var overlay = document.getElementById('onboarding-overlay');
+    if (overlay && e.target === overlay) {
+        closeOnboarding();
+    }
+});
 </script>
 <!-- ==================== ONBOARDING OVERLAY SONU ==================== -->
 </body>
