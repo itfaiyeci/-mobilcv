@@ -2852,82 +2852,109 @@
 
 
    <!-- KARŞILAMA EKRANI (ONBOARDING) - TELEFON UYUMLU -->
-<div id="onboarding-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center; animation:fadeIn 0.3s ease; padding:20px; box-sizing:border-box; overflow-y:auto;">
-    <div style="background:white; padding:25px 20px; border-radius:12px; max-width:400px; width:100%; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.3); margin:auto; box-sizing:border-box; position:relative;">
-        <div style="font-size:42px; margin-bottom:8px;">🚀</div>
-        <h3 style="color:#2c3e50; margin-bottom:8px; font-size:20px;">MobilCV'ye Hoş Geldiniz!</h3>
-        <p style="color:#555; font-size:14px; line-height:1.6; margin:0 0 8px 0;">
-            CV'nizi oluşturmak için <strong>A4 sayfasındaki metinlere tıklayıp düzenleyin</strong>.<br>
-            Tüm alanlar <strong>doğrudan düzenlenebilir</strong> ve değişiklikler otomatik kaydedilir.
+<!-- KARŞILAMA EKRANI (ONBOARDING) - SORUNSUZ VERSİYON -->
+<div id="onboarding-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.75); z-index:99999; justify-content:center; align-items:center; animation:fadeIn 0.3s ease; padding:20px; box-sizing:border-box; overflow-y:auto;">
+    <div style="background:#ffffff; padding:30px 25px; border-radius:16px; max-width:380px; width:100%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.4); margin:auto; box-sizing:border-box; position:relative;">
+        <div style="font-size:48px; margin-bottom:6px;">🚀</div>
+        <h3 style="color:#2c3e50; margin:0 0 8px 0; font-size:22px; font-weight:700;">MobilCV'ye Hoş Geldiniz!</h3>
+        <p style="color:#555; font-size:14px; line-height:1.7; margin:0 0 6px 0;">
+            CV'nizi oluşturmak için <strong>A4 sayfasındaki metinlere tıklayıp düzenleyin</strong>.
         </p>
-        <p style="color:#888; font-size:13px; margin:5px 0 12px 0;">
+        <p style="color:#777; font-size:13px; margin:0 0 16px 0; line-height:1.5;">
             📄 PDF indir • 🌍 10 dil desteği • 📱 mobil uyumlu
         </p>
-        <button onclick="closeOnboarding()" style="background:#3498db; color:white; border:none; padding:12px 30px; border-radius:8px; cursor:pointer; font-size:16px; font-weight:600; transition:all 0.3s; width:100%; max-width:200px; touch-action:manipulation;">
+        <button onclick="closeOnboarding()" style="background:#3498db; color:white; border:none; padding:14px 40px; border-radius:10px; cursor:pointer; font-size:17px; font-weight:600; transition:all 0.3s; touch-action:manipulation; box-shadow:0 4px 15px rgba(52,152,219,0.3);">
             Başlayalım!
         </button>
+        <p style="color:#aaa; font-size:11px; margin:12px 0 0 0;">Verileriniz otomatik kaydedilir</p>
     </div>
 </div>
 
 <style>
 @keyframes fadeIn {
-    from { opacity:0; transform:scale(0.95); }
-    to { opacity:1; transform:scale(1); }
+    from { opacity:0; }
+    to { opacity:1; }
 }
-/* Telefon için ekstra güvenlik */
+#onboarding-overlay {
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+/* Mobil için özel */
 @media (max-width: 480px) {
     #onboarding-overlay {
-        padding: 10px !important;
-        align-items: flex-start !important;
-        padding-top: 30px !important;
+        padding: 15px !important;
+        align-items: center !important;
     }
     #onboarding-overlay > div {
-        padding: 20px 15px !important;
-        margin-top: 20px !important;
+        padding: 25px 18px !important;
+        border-radius: 14px !important;
     }
     #onboarding-overlay h3 {
-        font-size: 18px !important;
+        font-size: 19px !important;
     }
     #onboarding-overlay p {
         font-size: 13px !important;
+    }
+    #onboarding-overlay button {
+        padding: 12px 30px !important;
+        font-size: 15px !important;
+        width: 100% !important;
     }
 }
 </style>
 
 <script>
-function closeOnboarding() {
-    var overlay = document.getElementById('onboarding-overlay');
-    if (overlay) {
-        overlay.style.display = 'none';
-        overlay.style.opacity = '0';
-        document.body.style.overflow = 'auto';
-        localStorage.setItem('onboardingShown', 'true');
+(function() {
+    'use strict';
+    
+    // Sayfa tamamen yüklendikten sonra göster
+    function showOnboarding() {
+        var overlay = document.getElementById('onboarding-overlay');
+        if (!overlay) return;
+        
+        var shown = localStorage.getItem('onboardingShown');
+        if (!shown) {
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
+        }
     }
-}
-
-// Sayfa yüklendiğinde kontrol et
-document.addEventListener('DOMContentLoaded', function() {
-    var overlay = document.getElementById('onboarding-overlay');
-    if (!localStorage.getItem('onboardingShown') && overlay) {
-        overlay.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Arkadaki sayfanın kaymasını engelle
+    
+    // Kapatma fonksiyonu (global)
+    window.closeOnboarding = function() {
+        var overlay = document.getElementById('onboarding-overlay');
+        if (overlay) {
+            overlay.style.display = 'none';
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+            localStorage.setItem('onboardingShown', 'true');
+        }
+    };
+    
+    // Sayfa yüklendiğinde göster
+    if (document.readyState === 'complete') {
+        showOnboarding();
+    } else {
+        window.addEventListener('load', showOnboarding);
     }
-});
-
-// ESC tuşu ile kapatma
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeOnboarding();
-    }
-});
-
-// Dışarı tıklayarak kapatma (isteğe bağlı)
-document.addEventListener('click', function(e) {
-    var overlay = document.getElementById('onboarding-overlay');
-    if (overlay && e.target === overlay) {
-        closeOnboarding();
-    }
-});
+    
+    // ESC ile kapat
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            window.closeOnboarding();
+        }
+    });
+    
+    // Dışarı tıklama ile kapat
+    document.addEventListener('click', function(e) {
+        var overlay = document.getElementById('onboarding-overlay');
+        if (overlay && e.target === overlay) {
+            window.closeOnboarding();
+        }
+    });
+})();
 </script>
 <!-- ==================== ONBOARDING OVERLAY SONU ==================== -->
 </body>
